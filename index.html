@@ -733,8 +733,8 @@
         // ============================================
         // KONFIGURACJA SUPABASE - WKLEJ SWOJE KLUCZE TUTAJ!
         // ============================================
-        const SUPABASE_URL = 'YOUR_SUPABASE_URL';  // Zamień na swój URL
-        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';  // Zamień na swój klucz
+        const SUPABASE_URL = 'https://yttyiclvkfwfceipxgmi.supabase.co';  // Zamień na swój URL
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0dHlpY2x2a2Z3ZmNlaXB4Z21pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NDQ0MzIsImV4cCI6MjA4NTEyMDQzMn0.KQChUy1cXJZwLj2q7Za3Yanqz5-GvpVb4dpTC4EVP44';  // Zamień na swój klucz
         // ============================================
 
         let supabase;
@@ -750,7 +750,7 @@
 
         // Initialize Supabase
         function initSupabase() {
-            if (SUPABASE_URL === 'YOUR_SUPABASE_URL' || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY') {
+            if (SUPABASE_URL === 'https://yttyiclvkfwfceipxgmi.supabase.co' || SUPABASE_ANON_KEY === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0dHlpY2x2a2Z3ZmNlaXB4Z21pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1NDQ0MzIsImV4cCI6MjA4NTEyMDQzMn0.KQChUy1cXJZwLj2q7Za3Yanqz5-GvpVb4dpTC4EVP44') {
                 document.getElementById('config-banner').style.display = 'block';
                 updateSyncStatus('Nie skonfigurowano', true);
                 isConfigured = false;
