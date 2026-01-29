@@ -2111,22 +2111,27 @@
                         const isFirstDay = currentDate.getTime() === eventStart.getTime();
                         const isLastDay = currentDate.getTime() === eventEnd.getTime();
                         
-                        if (isFirstDay && isLastDay) {
-                            // Single day event - full opacity
-                            eventChip.style.opacity = '1';
-                            eventChip.style.fontSize = '0.75rem';
-                        } else if (isFirstDay) {
-                            // First day - full opacity
-                            eventChip.style.opacity = '1';
-                            eventChip.style.fontSize = '0.75rem';
-                        } else if (isLastDay) {
-                            // Last day - medium opacity
-                            eventChip.style.opacity = '0.65';
-                            eventChip.style.fontSize = '0.65rem';
-                        } else {
-                            // Middle days - subtle
-                            eventChip.style.opacity = '0.5';
-                            eventChip.style.fontSize = '0.65rem';
+                        // Only apply opacity/fontSize on desktop (not mobile - mobile uses dots)
+                        const isMobile = window.innerWidth <= 768;
+                        
+                        if (!isMobile) {
+                            if (isFirstDay && isLastDay) {
+                                // Single day event - full opacity
+                                eventChip.style.opacity = '1';
+                                eventChip.style.fontSize = '0.75rem';
+                            } else if (isFirstDay) {
+                                // First day - full opacity
+                                eventChip.style.opacity = '1';
+                                eventChip.style.fontSize = '0.75rem';
+                            } else if (isLastDay) {
+                                // Last day - medium opacity
+                                eventChip.style.opacity = '0.65';
+                                eventChip.style.fontSize = '0.65rem';
+                            } else {
+                                // Middle days - subtle
+                                eventChip.style.opacity = '0.5';
+                                eventChip.style.fontSize = '0.65rem';
+                            }
                         }
                         
                         eventChip.onclick = (e) => {
