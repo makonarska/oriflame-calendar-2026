@@ -1265,8 +1265,8 @@
 
             /* Day cells - CRITICAL sizing */
             .day {
-                min-height: 60px;
-                max-height: 60px;
+                min-height: 65px;
+                max-height: 65px;
                 padding: 0.3rem 0.25rem;
                 font-size: 0.75rem;
                 display: flex;
@@ -1279,10 +1279,7 @@
             }
 
             .holiday-name {
-                font-size: 0.45rem;
-                line-height: 1;
-                margin-top: 0.1rem;
-                letter-spacing: 0;
+                display: none !important;  /* Ukryte na mobile - za dużo miejsca */
             }
 
             /* Events as DOTS on mobile */
@@ -2166,6 +2163,104 @@
         }
 
         function handleDayClick(dateKey) {
+            const isMobile = window.innerWidth <= 768;
+            
+            // Check if there are events on this day
+            const dayEvents = Object.entries(events).filter(([id, event]) => {
+                const start = parseDate(event.startDate);
+                const end = parseDate(event.endDate);
+                const clickedDate = parseDate(dateKey);
+                return start <= clickedDate && end >= clickedDate;
+            });
+            
+            if (isMobile && dayEvents.length > 0) {
+                // On mobile: if there are events, show choice modal
+                showDayChoiceModal(dateKey, dayEvents);
+            } else {
+                // Desktop or no events: open add event modal directly
+                selectedDate = dateKey;
+                document.getElementById('event-date-start').value = dateKey;
+                document.getElementById('event-date-end').value = dateKey;
+                openModal();
+            }
+        }
+
+        function showDayChoiceModal(dateKey, dayEvents) {
+            const modal = document.getElementById('view-events-modal');
+            const title = document.getElementById('view-modal-title');
+            const list = document.getElementById('events-list');
+            
+            const date = parseDate(dateKey);
+            title.textContent = `${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+            
+            list.innerHTML = `
+                <div style="display: flex; flex-direction: column; gap: 0.75rem; padding: 1rem;">
+                    <button class="btn btn-primary" onclick="viewDayEvents('${dateKey}')" style="padding: 1rem; font-size: 1rem;">
+                        👁️ Zobacz wydarzenia (${dayEvents.length})
+                    </button>
+                    <button class="btn btn-secondary" onclick="addEventOnDay('${dateKey}')" style="padding: 1rem; font-size: 1rem;">
+                        ➕ Dodaj wydarzenie
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function viewDayEvents(dateKey) {
+            closeViewModal();
+            
+            const date = parseDate(dateKey);
+            const dayEvents = Object.entries(events).filter(([id, event]) => {
+                const start = parseDate(event.startDate);
+                const end = parseDate(event.endDate);
+                const clickedDate = parseDate(dateKey);
+                return start <= clickedDate && end >= clickedDate;
+            });
+            
+            const modal = document.getElementById('view-events-modal');
+            const title = document.getElementById('view-modal-title');
+            const list = document.getElementById('events-list');
+            
+            title.textContent = `Wydarzenia - ${date.getDate()} ${monthNames[date.getMonth()]}`;
+            list.innerHTML = '';
+            
+            dayEvents.forEach(([eventId, event]) => {
+                const item = document.createElement('div');
+                item.className = 'event-item';
+                item.style.borderColor = event.color;
+
+                const startDate = parseDate(event.startDate);
+                const endDate = parseDate(event.endDate);
+                const dateRange = `${startDate.getDate()} ${monthNames[startDate.getMonth()]} - ${endDate.getDate()} ${monthNames[endDate.getMonth()]}`;
+
+                item.innerHTML = `
+                    <div class="event-info">
+                        <div class="event-title" style="color: ${event.color}">${event.title}</div>
+                        <div class="event-dates">${dateRange}</div>
+                        ${event.description ? `<div class="event-description">${event.description}</div>` : ''}
+                        ${renderLinks(event)}
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-secondary edit-event-btn" style="padding: 0.5rem 1rem;" data-event-id="${eventId}">✏️ Edytuj</button>
+                        <button class="delete-btn delete-event-btn" data-event-id="${eventId}">Usuń</button>
+                    </div>
+                `;
+                
+                const editBtn = item.querySelector('.edit-event-btn');
+                const deleteBtn = item.querySelector('.delete-event-btn');
+                
+                editBtn.addEventListener('click', () => editEvent(eventId));
+                deleteBtn.addEventListener('click', () => deleteEvent(eventId));
+                
+                list.appendChild(item);
+            });
+            
+            modal.classList.add('active');
+        }
+
+        function addEventOnDay(dateKey) {
+            closeViewModal();
             selectedDate = dateKey;
             document.getElementById('event-date-start').value = dateKey;
             document.getElementById('event-date-end').value = dateKey;
