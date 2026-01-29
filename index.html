@@ -1290,28 +1290,39 @@
                 margin-top: 0.2rem;
                 display: flex;
                 flex-wrap: wrap;
-                gap: 0.15rem;
+                gap: 0.2rem;
                 justify-content: flex-start;
+                align-items: center;
             }
 
             .event-chip {
-                /* Hide text, show only as colored dot */
-                width: 6px !important;
-                height: 6px !important;
-                min-width: 6px;
+                /* Transform to dot */
+                width: 7px !important;
+                height: 7px !important;
+                min-width: 7px !important;
+                max-width: 7px !important;
                 padding: 0 !important;
-                margin: 0;
+                margin: 0 !important;
                 border-radius: 50% !important;
                 font-size: 0 !important;
-                overflow: hidden;
-                text-indent: -9999px;
-                flex-shrink: 0;
+                line-height: 0 !important;
+                text-indent: -9999px !important;
+                overflow: hidden !important;
+                flex-shrink: 0 !important;
+                flex-grow: 0 !important;
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) !important;
             }
 
             .event-chip.important {
-                width: 8px !important;
-                height: 8px !important;
-                box-shadow: 0 0 0 1px rgba(156, 218, 188, 0.8);
+                width: 9px !important;
+                height: 9px !important;
+                min-width: 9px !important;
+                max-width: 9px !important;
+                box-shadow: 0 0 0 1.5px rgba(156, 218, 188, 0.9) !important;
+            }
+
+            .event-chip:hover {
+                transform: none !important;
             }
 
             /* Today indicator smaller */
@@ -1479,15 +1490,19 @@
                 font-size: 0.8rem;
             }
 
-            /* Kropki pozostają 6px */
+            /* Kropki trochę mniejsze */
             .event-chip {
                 width: 6px !important;
                 height: 6px !important;
+                min-width: 6px !important;
+                max-width: 6px !important;
             }
 
             .event-chip.important {
-                width: 7px !important;
-                height: 7px !important;
+                width: 8px !important;
+                height: 8px !important;
+                min-width: 8px !important;
+                max-width: 8px !important;
             }
 
             .holiday-name {
